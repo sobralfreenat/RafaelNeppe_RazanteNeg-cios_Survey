@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio Bella & Louzada Advogados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #000000; /* Fundo preto */
+            color: #ffffff; /* Texto branco */
+        }
+        img {
+            max-width: 45%;
+            height: auto;
+            border: 0px solid #ffffff; /* Borda branca */
+            border-radius: 10px;
+            cursor: move; /* Indica que a imagem pode ser movida */
+            position: absolute; /* Permite mover a imagem */
+        }
+        h1, h2 {
+            color: #ffffff; /* Títulos em branco */
+        }
+        .accordion {
+            width: 40%; /* Largura do acordeão */
+            margin-bottom: 20px;
+            border: 1px solid #ffffff; /* Borda branca */
+            border-radius: 5px;
+            background-color: #1e1e1e; /* Fundo escuro */
+        }
+        .accordion-header {
+            padding: 15px;
+            cursor: pointer;
+            background-color: #ffcc00; /* Fundo dourado */
+            color: #000000; /* Texto preto */
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        .accordion-content {
+            display: none; /* Oculta o conteúdo inicialmente */
+            padding: 15px;
+            border-top: 1px solid #ffffff; /* Borda superior */
+        }
+        textarea, input {
+            width: 100%;
+            padding: 15px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ffffff; /* Borda branca */
+            border-radius: 5px;
+            background-color: #1e1e1e; /* Fundo escuro para inputs */
+            color: #ffffff; /* Texto em branco */
+        }
+        textarea:focus, input:focus {
+            outline: none;
+            border-color: #ffcc00; /* Dourado mais claro ao focar */
+        }
+        button {
+            background-color: #ffffff; /* Botão branco */
+            color: #000000; /* Texto preto */
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin: 2 5px; /* Espaço entre os botões */
+        }
+        button:hover {
+            background-color: #ffcc00; /* Dourado mais claro ao passar o mouse */
+        }
+        .button-container {
+            display: flex; /* Flex para alinhar os botões */
+            justify-content: center; /* Centraliza os botões */
+            margin-top: 20px; /* Espaço acima dos botões */
+        }
+        .question {
+            display: none; /* Oculta todas as perguntas inicialmente */
+            margin-bottom: 30px; /* Espaço para os botões */
+            color: white;
+        }
+        .active {
+            display: block; /* Apenas a pergunta ativa será exibida */
+        }
+        /* Estilo do botão de fixar/imagem */
+        #toggleLock {
+            position: absolute;
+            top: -10px; /* Posição discreta no canto superior */
+            right: 10px; /* Distância da borda direita */
+            padding: 5px 10px; /* Tamanho menor */
+            background-color: rgba(255, 255, 255, 0.2); /* Fundo semitransparente */
+            color: darkgray; /* Texto branco */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px; /* Tamanho de fonte menor */
+            opacity: 0.2;
+        }
+    </style>
+</head>
+<body>
+
+    <img id="draggableImage" src="https://d1yei2z3i6k35z.cloudfront.net/3119789/672e9d799a314_RNRafaelneppetestpoc03.jpg" alt="Imagem de Cabeçalho">
+
+    <button id="toggleLock" onclick="toggleLock()">Fixar/Liberar</button>
+
+    <div class="accordion">
+        <button class="accordion-header" id="accordionHeader">Nome da Empresa</button>
+        <div class="accordion-content">
+            <label for="nomeEmpresa">Nome da Empresa:</label>
+            <input type="text" id="nomeEmpresa" placeholder="Digite o nome da empresa" oninput="updateAccordionHeader()">
+
+            <label for="cnpj">CNPJ:</label>
+            <input type="text" id="cnpj" placeholder="Digite o CNPJ">
+
+            <label for="responsavel1">Responsável 1:</label>
+            <input type="text" id="responsavel1" placeholder="Digite o nome do responsável 1">
+
+            <label for="emailPrincipal">E-mail Principal:</label>
+            <input type="email" id="emailPrincipal" placeholder="Digite o e-mail principal">
+
+            <label for="whatsapp">WhatsApp:</label>
+            <input type="text" id="whatsapp" placeholder="Digite o número do WhatsApp">
+        </div>
+    </div>
+    
+    <h2>Objetivos:</h2>
+    
+    <div class="question active" id="question1">
+        <p>1. Levantar a situação atual dos objetivos para definir estratégias, táticas e operações</p>
+        <ul>
+            <li><strong>Comentário:</strong> <br>Quanto em quanto tempo?
+           <br><textarea id="comentario1" placeholder="Digite seu comentário aqui..."></textarea>
+            </li>
+        </ul>
+    </div>
+
+    <div class="question" id="question2">
+        <p>2. Expandir o posicionamento digital</p>
+        <ul>
+            <li><strong>Comentário:</strong> 
+                <ul>
+                    <li>O posicionamento offline está como atualmente?</li>
+                    <li>Qual o número de clientes cadastrados e qual o número de clientes ativos?</li>
+                    <li>Qual a capacidade de atendimento mensal e qual o ticket médio?</li>
+                </ul>
+            <br>    <textarea id="comentario2" placeholder="Digite seu comentário aqui..."></textarea>
+            </li>
+        </ul>
+    </div>
+
+    <div class="question" id="question3">
+        <p>3. Atrair novos clientes</p>
+        <ul>
+            <li><strong>Comentário:</strong> 
+                <ul>
+                    <li>Já temos o ICP deles?</li>
+                    <li>Qual o melhor perfil de cliente desejado atualmente? (verificar históricos)</li>
+                    <li><strong>Critérios:</strong>
+                        <ul>
+                            <li>Menor CAC</li>
+                            <li>Maior suavidade</li>
+                            <li>Melhor pagador</li>
+                            <li>Menos trabalho e maior resultado (Lucro Líquido)</li>
+                        </ul>
+                    </li>
+                </ul>
+              <br>  <textarea id="comentario3" placeholder="Digite seu comentário aqui..."></textarea>
+            </li>
+        </ul>
+    </div>
+
+    <div class="question" id="question4">
+        <p>4. Criar uma experiência do cliente (CX) que promova autoridade</p>
+        <ul>
+            <li><strong>Comentário:</strong>
+                <ul>
+                    <li><strong>COPS:</strong>
+                        <ul>
+                            <li><strong>Contexto:</strong> Entender o histórico do cliente e suas necessidades.</li>
+                            <li><strong>Ocorrência:</strong> Identificar situações que impactam a experiência do cliente.</li>
+                            <li><strong>Problema:</strong> Reconhecer os pontos de dor na jornada do cliente.</li>
+                            <li><strong>Solução imaginada:</strong> Criar um processo que facilite a interação e atenda às expectativas do cliente.</li>
+                        </ul>
+                    </li>
+                </ul>
+              <br>  <textarea id="comentario4" placeholder="Digite seu comentário aqui..."></textarea>
+            </li>
+        </ul>
+    </div>
+
+    <div class="question" id="question5">
+        <p>5. Destacar-se no mercado em que atua</p>
+        <ul>
+            <li><strong>Comentário:</strong> 
+                <ul>
+                    <li>Vamos explorar a competitividade a partir de quais parâmetros conhecidos, éticos?</li>
+                    <li>Podemos considerar, por exemplo, a educação de clientes com conteúdo de apoio jurídico conforme o caso e provocar receita recorrente.</li>
+                </ul>
+               <br> <textarea id="comentario5" placeholder="Digite seu comentário aqui..."></textarea>
+            </li>
+        </ul>
+    </div>
+
+    <div class="question" id="question6">
+        <p>6. Respeitar a legislação do Código de Ética</p>
+        <ul>
+            <li><strong>Comentário:</strong> 
+                <ul>
+                    <li>Em relação ao posicionamento? A que?</li>
+                    <li><strong>Critérios já conhecidos a confirmar:</strong> Avaliar a conformidade com as diretrizes do código de ética.</li>
+                </ul>
+               <br> <textarea id="comentario6" placeholder="Digite seu comentário aqui..."></textarea>
+            </li>
+        </ul>
+    </div>
+
+    <div class="button-container">
+        <button id="prevButton" style="display: none;" onclick="previousQuestion()">Anterior</button>
+        <button id="nextButton" onclick="nextQuestion()">Próximo</button>
+    </div>
+    
+    <h3>Comentários e Respostas do Cliente</h3>
+    <textarea id="comentarioGeral" placeholder="Digite seu comentário geral aqui..."></textarea>
+    <button onclick="adicionarComentarioGeral()">Adicionar Comentário Geral</button>
+    
+    <h3>Comentários Gerais:</h3>
+    <div id="listaComentariosGeral"></div>
+    
+    <button onclick="salvarJSON()">Salvar Formulario</button>
+    <button onclick="carregarJSON()">Carregar Formulário</button>
+
+    <script>
+        let comentariosGeral = [];
+        let currentQuestion = 1;
+        let isLocked = false; // Estado de bloqueio da imagem
+        const img = document.getElementById('draggableImage');
+
+        // Exibe a pergunta atual
+        function showQuestion(questionNumber) {
+            const questions = document.querySelectorAll('.question');
+            questions.forEach((question, index) => {
+                question.classList.remove('active');
+                if (index + 1 === questionNumber) {
+                    question.classList.add('active');
+                }
+            });
+            document.getElementById('prevButton').style.display = questionNumber === 1 ? 'none' : 'inline-block';
+            document.getElementById('nextButton').innerText = questionNumber === questions.length ? 'Finalizar' : 'Próximo';
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < document.querySelectorAll('.question').length) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            } else {
+                finalizar();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 1) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+
+        function finalizar() {
+            alert('Formulário finalizado!');
+            // Aqui você pode adicionar lógica para processar os dados ou redirecionar o usuário.
+        }
+
+        function adicionarComentarioGeral() {
+            const comentarioTexto = document.getElementById('comentarioGeral').value;
+            if (comentarioTexto) {
+                comentariosGeral.push(comentarioTexto);
+                document.getElementById('comentarioGeral').value = '';
+                atualizarListaComentariosGeral();
+            }
+        }
+
+        function atualizarListaComentariosGeral() {
+            const lista = document.getElementById('listaComentariosGeral');
+            lista.innerHTML = '';
+            comentariosGeral.forEach((comentario, index) => {
+                lista.innerHTML += `<p>${index + 1}: ${comentario}</p>`;
+            });
+        }
+
+        function salvarJSON() {
+            const nomeEmpresa = document.getElementById('nomeEmpresa').value.trim() || "Empresa"; // Nome padrão se vazio
+            const comentarios = [
+                document.getElementById('comentario1').value,
+                document.getElementById('comentario2').value,
+                document.getElementById('comentario3').value,
+                document.getElementById('comentario4').value,
+                document.getElementById('comentario5').value,
+                document.getElementById('comentario6').value,
+                ...comentariosGeral,
+                nomeEmpresa,
+                document.getElementById('cnpj').value,
+                document.getElementById('responsavel1').value,
+                document.getElementById('emailPrincipal').value,
+                document.getElementById('whatsapp').value
+            ];
+            const json = JSON.stringify(comentarios);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${nomeEmpresa}_Alinhamento01.json`; // Nome do arquivo
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function carregarJSON() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = e => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = event => {
+                    const dados = JSON.parse(event.target.result);
+                    document.getElementById('comentario1').value = dados[0];
+                    document.getElementById('comentario2').value = dados[1];
+                    document.getElementById('comentario3').value = dados[2];
+                    document.getElementById('comentario4').value = dados[3];
+                    document.getElementById('comentario5').value = dados[4];
+                    document.getElementById('comentario6').value = dados[5];
+                    comentariosGeral = dados.slice(6, -5);
+                    document.getElementById('nomeEmpresa').value = dados[dados.length - 5];
+                    document.getElementById('cnpj').value = dados[dados.length - 4];
+                    document.getElementById('responsavel1').value = dados[dados.length - 3];
+                    document.getElementById('emailPrincipal').value = dados[dados.length - 2];
+                    document.getElementById('whatsapp').value = dados[dados.length - 1];
+                    atualizarListaComentariosGeral();
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        // Função para atualizar o título do acordeão com o nome da empresa
+        function updateAccordionHeader() {
+            const nomeEmpresa = document.getElementById('nomeEmpresa').value;
+            document.getElementById('accordionHeader').innerText = nomeEmpresa || "Nome da Empresa";
+        }
+
+        // Inicializa a primeira pergunta
+        showQuestion(currentQuestion);
+
+        // Lógica do acordeão
+        document.querySelector('.accordion-header').addEventListener('click', function() {
+            const content = this.nextElementSibling;
+            content.style.display = content.style.display === "block" ? "none" : "block";
+        });
+
+        // Função para alternar o bloqueio da imagem
+        function toggleLock() {
+            isLocked = !isLocked;
+            img.style.pointerEvents = isLocked ? 'none' : 'auto'; // Desabilita o mouse se bloqueado
+            document.getElementById('toggleLock').innerText = isLocked ? 'Liberar' : 'Fixar';
+        }
+
+        // Lógica de arrastar a imagem
+        let offsetX, offsetY;
+
+        img.addEventListener('mousedown', function(e) {
+            if (!isLocked) {
+                offsetX = e.clientX - img.getBoundingClientRect().left;
+                offsetY = e.clientY - img.getBoundingClientRect().top;
+                document.addEventListener('mousemove', moveImage);
+                document.addEventListener('mouseup', () => {
+                    document.removeEventListener('mousemove', moveImage);
+                });
+            }
+        });
+
+        function moveImage(e) {
+            img.style.left = (e.clientX - offsetX) + 'px';
+            img.style.top = (e.clientY - offsetY) + 'px';
+        }
+    </script>
+
+</body>
+</html>
